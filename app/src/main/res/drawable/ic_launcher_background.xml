@@ -4,7 +4,21 @@
     android:viewportHeight="135.4667"
     android:width="108dp"
     android:height="108dp">
+    <!-- Modern gradient background for refreshed look -->
     <path
         android:pathData="M-0.2617076 -0.1145289H135.7284V135.5812H-0.2617076V-0.1145289Z"
-        android:fillColor="#000000" />
+        android:fillColor="#1a1a2e" />
+    <!-- Gradient overlay -->
+    <path
+        android:pathData="M-0.2617076 -0.1145289H135.7284V135.5812H-0.2617076V-0.1145289Z">
+        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+            <gradient
+                android:startY="0"
+                android:endY="135.5812"
+                android:startColor="#16213e"
+                android:centerColor="#1a1a2e"
+                android:endColor="#0f3460"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
 </vector>

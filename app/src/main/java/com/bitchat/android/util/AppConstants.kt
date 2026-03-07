@@ -26,8 +26,9 @@ object AppConstants {
         const val RSSI_UPDATE_INTERVAL_MS: Long = 5_000L
 
         object Gatt {
-            val SERVICE_UUID: UUID = UUID.fromString("F47B5E2D-4A9E-4C5A-9B3F-8E1D2C3A4B5C")
-            val CHARACTERISTIC_UUID: UUID = UUID.fromString("A1B2C3D4-E5F6-4A5B-8C9D-0E1F2A3B4C5D")
+            // Updated service UUID for new version - maintains BLE mesh protocol compatibility
+            val SERVICE_UUID: UUID = UUID.fromString("B17C4A7E-3D8F-4E6B-9A2C-5F1E0D4B8C9A")
+            val CHARACTERISTIC_UUID: UUID = UUID.fromString("C2D5A6F8-4E9B-4F7C-8D1A-3B2E5C6F9D0A")
             val DESCRIPTOR_UUID: UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
         }
     }

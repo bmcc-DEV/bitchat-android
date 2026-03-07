@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.compose)
+    kotlin("kapt")
 }
 
 android {
@@ -10,11 +11,11 @@ android {
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.bitchat.droid"
+        applicationId = "com.ghostpay.android"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 32
-        versionName = "1.7.1"
+        versionCode = 1
+        versionName = "0.1.0-fantasma"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -145,6 +146,11 @@ dependencies {
     // EXIF orientation handling for images
     implementation("androidx.exifinterface:exifinterface:1.3.7")
     
+    // Room — Shadow Ledger
+    implementation(libs.aandroidx.room.runtime)
+    implementation(libs.aandroidx.room.ktx)
+    kapt(libs.aandroidx.room.compiler)
+
     // Testing
     testImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.androidx.compose.bom))

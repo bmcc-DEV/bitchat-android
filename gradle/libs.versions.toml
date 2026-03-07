@@ -63,6 +63,10 @@ kotlinx-coroutines-test = "1.6"
 
 lifecycle-process = "2.8.7"
 
+# Room (Shadow Ledger)
+room = "2.7.1"
+ksp = "2.2.0-1.0.25"
+
 [libraries]
 # AndroidX Core
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -134,12 +138,18 @@ mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito
 roboelectric = { module = "org.robolectric:robolectric", version.ref = "roboelectric"}
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test"}
 
+# Room
+aandroidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+aandroidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+aandroidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "kotlin-parcelize" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 compose = [
