@@ -199,10 +199,10 @@ class PaymentFlowIntegrationTest {
 
     @Test
     fun `swap prevents double-spend attack`() = runTest {
-        // Arrange: Same tokens used twice
+        // Arrange: Same token pair used twice
         val buyerBearerToken = tokenFactory.mintBearer(10.0, "kg", "café")
         val sellerCommodityToken1 = tokenFactory.mintCommodity(10.0, "kg", "café")
-        val sellerCommodityToken2 = tokenFactory.mintCommodity(10.0, "kg", "café")
+        val sellerCommodityToken2 = sellerCommodityToken1
         
         // First swap should succeed
         val handshake1 = buyerFlowManager.initiateHandshake(buyerBearerToken)

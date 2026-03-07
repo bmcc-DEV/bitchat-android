@@ -12,7 +12,7 @@ class FxConverterTest {
 
     private val quote = FxQuote(
         fntToBrlRate  = 5.0,    // 1 FNT = R$ 5.00
-        fntToBtcRate  = 0.000025, // 1 FNT = 2500 satoshis
+        fntToBtcRate  = 25.0,   // 1 FNT = 25 satoshis (100 FNT = 2500 sat)
         fntToUsdtRate = 1.0     // 1 FNT = 1.00 USDT
     )
 
