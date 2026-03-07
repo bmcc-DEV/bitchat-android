@@ -228,9 +228,9 @@ class PaymentFlowIntegrationTest {
             override fun onSwapComplete(receivedToken: Token, fxHint: String?) {
                 latch.countDown()
             }
-            override fun onSwapFailed(reason: String) {
+            override fun onSwapFailed(failureReason: String) {
                 failed = true
-                this@PaymentFlowIntegrationTest.run { reason = reason }
+                reason = failureReason
                 latch.countDown()
             }
         })
