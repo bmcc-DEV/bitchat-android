@@ -44,6 +44,22 @@ This project is released into the public domain. See the [LICENSE](LICENSE.md) f
 - **✅ Dark/Light Themes**: Terminal-inspired aesthetic matching iOS version
 - **✅ Battery Optimization**: Adaptive scanning and power management
 
+## Crypt High Tech (Phase 1)
+
+This workspace includes an experimental `com.bitchat.crypto` module with:
+
+- AES-GCM encryption and in-memory key management (`EncryptionService`, `KeyManager`)
+- Ledger + tax + BICS allocation + unified value history
+- Ordered gossip primitives with dedup and collision detection
+- Edge oracle + EMA forecast model
+- Enclave memory emulation + JIT stub + governance policy mutation
+- Wallet PIN/session authentication utilities
+- Room schema for network logs (`CryptoOpsDatabase`)
+
+Implementation summary and next milestones:
+
+- `docs/CRYPT_HIGH_TECH_PHASE1.md`
+
 ## Android Setup
 
 ### Prerequisites

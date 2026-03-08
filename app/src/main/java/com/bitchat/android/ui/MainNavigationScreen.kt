@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bitchat.android.ui.crypto.NetworkScreen
+import com.bitchat.android.ui.crypto.OracleScreen
 import com.ghostpay.android.ui.pay.PayDashboardScreen
 import com.bitchat.android.ui.crypto.CryptoScreen
 

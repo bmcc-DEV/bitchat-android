@@ -1,5 +1,7 @@
 package com.bitchat.crypto
 
+import java.util.Base64
+
 /**
  * A stub for the cryptographic interpreter (NewtonCider / Objecider).
  * It would execute encrypted transactions and apply FHE.
@@ -8,25 +10,36 @@ object Interpreter {
     data class CryptoTransaction(val payload: ByteArray)
 
     // simple ledger instance used during execution
-    private val ledger = CryptoLedger()
+    private var ledger = CryptoLedger()
+    private var suppressNextInbound = false
 
     init {
         // register to receive messages from the network
         NetworkService.registerListener { msg ->
-            // treat incoming message as a transaction
-            execute(CryptoTransaction(msg.toByteArray()))
+            if (suppressNextInbound) {
+                suppressNextInbound = false
+                return@registerListener
+            }
+            executeInternal(msg.toByteArray(), propagate = false)
         }
     }
 
     fun execute(transaction: CryptoTransaction) {
-        // simulate FHE decryption/encryption
-        val decrypted = EncryptionService.decrypt(transaction.payload)
+        executeInternal(transaction.payload, propagate = true)
+    }
+
+    private fun executeInternal(rawPayload: ByteArray, propagate: Boolean) {
+        val rawText = String(rawPayload)
+        val clearText = if (rawText.startsWith("enc:")) {
+            val cipherBytes = Base64.getDecoder().decode(rawText.removePrefix("enc:"))
+            String(EncryptionService.decrypt(cipherBytes))
+        } else {
+            rawText
+        }
+
         println("Executing cryptographic transaction (stub)")
-        // for demonstration we'll pretend payload encodes a transfer
-        if (decrypted.isNotEmpty()) {
-            val msg = String(decrypted)
-            // format: from:to:amount
-            val parts = msg.split(":")
+        if (clearText.isNotEmpty()) {
+            val parts = clearText.split(":")
             if (parts.size == 3) {
                 val from = parts[0]
                 val to = parts[1]
@@ -34,9 +47,24 @@ object Interpreter {
                 ledger.transfer(from, to, amount)
             }
         }
-        // propagate transaction to network (encrypt before sending)
-        NetworkService.broadcast(String(EncryptionService.encrypt(transaction.payload)))
+
+        if (propagate) {
+            val encrypted = EncryptionService.encrypt(clearText.toByteArray())
+            val envelope = "enc:" + Base64.getEncoder().encodeToString(encrypted)
+            suppressNextInbound = true
+            NetworkService.broadcast(envelope)
+        }
     }
 
     fun getBalance(account: String): Double = ledger.getBalance(account)
+
+    // helper for unit tests and initialization
+    fun deposit(account: String, amount: Double) {
+        ledger.deposit(account, amount)
+    }
+
+    fun resetState() {
+        ledger = CryptoLedger()
+        suppressNextInbound = false
+    }
 }

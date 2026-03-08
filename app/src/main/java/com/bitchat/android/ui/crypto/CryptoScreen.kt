@@ -42,8 +42,26 @@ fun CryptoScreen(viewModel: CryptoViewModel = viewModel()) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Text("Unified value history:")
+        if (history.isNotEmpty()) {
+            Text(toSparkline(history), style = MaterialTheme.typography.bodySmall)
+        }
         history.forEach { u ->
             Text(u.toString())
+        }
+    }
+}
+
+private fun toSparkline(values: List<Double>): String {
+    if (values.isEmpty()) return ""
+    val bars = ".:-=+*#%@"
+    val min = values.minOrNull() ?: return ""
+    val max = values.maxOrNull() ?: return ""
+    if (min == max) return bars.first().toString().repeat(values.size)
+    return buildString {
+        values.forEach { v ->
+            val normalized = ((v - min) / (max - min)).coerceIn(0.0, 1.0)
+            val index = (normalized * (bars.length - 1)).toInt()
+            append(bars[index])
         }
     }
 }

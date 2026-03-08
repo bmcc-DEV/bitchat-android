@@ -6,39 +6,26 @@ package com.bitchat.crypto
  */
 import java.security.SecureRandom
 import javax.crypto.Cipher
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
+import javax.crypto.spec.GCMParameterSpec
 
 object EncryptionService {
-    // AES key (128-bit) hardcoded for demonstration
-    private val keyBytes = ByteArray(16).apply { SecureRandom().nextBytes(this) }
-    private val keySpec = SecretKeySpec(keyBytes, "AES")
+    private const val GCM_TAG_BITS = 128
+    private const val IV_BYTES = 12
 
-    fun encrypt(data: ByteArray): ByteArray {
-        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-        val iv = ByteArray(16).apply { SecureRandom().nextBytes(this) }
-        cipher.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv))
+    fun encrypt(data: ByteArray, keyAlias: String = "crypt_high_tech_default"): ByteArray {
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        val iv = ByteArray(IV_BYTES).apply { SecureRandom().nextBytes(this) }
+        cipher.init(Cipher.ENCRYPT_MODE, KeyManager.getOrCreate(keyAlias), GCMParameterSpec(GCM_TAG_BITS, iv))
         val encrypted = cipher.doFinal(data)
-        return iv + encrypted // prepend IV
+        return iv + encrypted
     }
 
-    fun decrypt(data: ByteArray): ByteArray {
-        if (data.size < 16) return ByteArray(0)
-        val iv = data.copyOfRange(0, 16)
-        val cipherData = data.copyOfRange(16, data.size)
-        val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-        cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv))
+    fun decrypt(data: ByteArray, keyAlias: String = "crypt_high_tech_default"): ByteArray {
+        if (data.size <= IV_BYTES) return ByteArray(0)
+        val iv = data.copyOfRange(0, IV_BYTES)
+        val cipherData = data.copyOfRange(IV_BYTES, data.size)
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        cipher.init(Cipher.DECRYPT_MODE, KeyManager.getOrCreate(keyAlias), GCMParameterSpec(GCM_TAG_BITS, iv))
         return cipher.doFinal(cipherData)
-    }
-
-    /**
-     * Homomorphic addition: encrypts two integers and adds ciphertext
-     * by decrypting, adding and re-encrypting (not true homomorphic!).
-     */
-    fun homomorphicAdd(encA: ByteArray, encB: ByteArray): ByteArray {
-        val a = String(decrypt(encA)).toDouble()
-        val b = String(decrypt(encB)).toDouble()
-        val sum = a + b
-        return encrypt(sum.toString().toByteArray())
     }
 }
