@@ -10,12 +10,21 @@ object Interpreter {
     // simple ledger instance used during execution
     private val ledger = CryptoLedger()
 
+    init {
+        // register to receive messages from the network
+        NetworkService.registerListener { msg ->
+            // treat incoming message as a transaction
+            execute(CryptoTransaction(msg.toByteArray()))
+        }
+    }
+
     fun execute(transaction: CryptoTransaction) {
-        // TODO: decrypt/operate under FHE and update ledger
+        // simulate FHE decryption/encryption
+        val decrypted = EncryptionService.decrypt(transaction.payload)
         println("Executing cryptographic transaction (stub)")
         // for demonstration we'll pretend payload encodes a transfer
-        if (transaction.payload.isNotEmpty()) {
-            val msg = String(transaction.payload)
+        if (decrypted.isNotEmpty()) {
+            val msg = String(decrypted)
             // format: from:to:amount
             val parts = msg.split(":")
             if (parts.size == 3) {
@@ -25,8 +34,8 @@ object Interpreter {
                 ledger.transfer(from, to, amount)
             }
         }
-        // propagate transaction to network
-        NetworkService.broadcast(String(transaction.payload))
+        // propagate transaction to network (encrypt before sending)
+        NetworkService.broadcast(String(EncryptionService.encrypt(transaction.payload)))
     }
 
     fun getBalance(account: String): Double = ledger.getBalance(account)
