@@ -4,6 +4,7 @@ import android.app.Application
 import com.bitchat.android.nostr.RelayDirectory
 import com.bitchat.android.ui.theme.ThemePreferenceManager
 import com.bitchat.android.net.ArtiTorManager
+import com.bitchat.crypto.storage.NetworkReplayCoordinator
 
 /**
  * Main application class for bitchat Android
@@ -54,5 +55,8 @@ class BitchatApplication : Application() {
         try { com.bitchat.android.service.MeshForegroundService.start(this) } catch (_: Exception) { }
 
         // TorManager already initialized above
+
+        // Start crypto network persistence/replay coordinator
+        try { NetworkReplayCoordinator.start(this) } catch (_: Exception) { }
     }
 }

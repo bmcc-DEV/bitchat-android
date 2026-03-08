@@ -48,4 +48,11 @@ object NetworkService {
             seenIds.clear()
         }
     }
+
+    fun resetForTests() {
+        listeners.clear()
+        orderedListeners.clear()
+        seenIds.clear()
+        seq = 0L
+    }
 }
