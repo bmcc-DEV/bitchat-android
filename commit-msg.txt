@@ -1,0 +1,136 @@
+feat(crypt-high-tech): implement Phase 3 - Ordem Espontânea
+
+Integration Layer + UI Dashboard
+
+## New Components
+
+### BicsCoordinator (300 lines)
+- Orchestrates all 4 BICS layers with CryptoLedger
+- Parallel oracle fleet processing (10 sensors)
+- Schelling consensus for market intelligence
+- Dynamic tax calculation: τ_dyn = min(E[C_swift + I_fiat], ∂U_v/∂T) · e^(-κ·Z_k)
+- Transaction routing: 50% burn / 30% stability / 15% arb / 5% innovation
+- Energy tracking: E_BICS = ½M_v·V²_p2p + ∮Z_k(τ_opt)dS
+- Data classes: TransactionResult, MarketData, SystemState
+
+### TopologyGuardian (250 lines)
+- Euler-Poincaré network resilience: χ(G) = Σ(-1)^k β_k
+- Betti numbers: β₀ (partitions), β₁ (cycles)
+- DFS-based partition detection
+- Automatic healing via bridge edges
+- Mesh reconfiguration (target redundancy: 3)
+- Attack simulation: survivability scoring
+- RobustnessScore: statistical network health
+
+### BicsDashboardViewModel (120 lines)
+- StateFlow for reactive UI updates
+- Real-time system metrics (tax, energy, deflation)
+- Topology health monitoring
+- Transaction simulation
+- P2P loan rate calculation
+- Auto-healing trigger
+
+### BicsDashboardScreen (180 lines)
+- Material 3 Compose UI
+- Last Transaction panel (tax, burn, arbitrage, energy)
+- 4-Layer Stack status (survival, stability, distortion, convexity)
+- Network Topology (Euler χ, β₀, β₁, degree, resilience)
+- P2P Loan Rate display
+- Interactive actions: refresh, heal, test transactions
+- High ZK vs Low ZK transaction comparison
+
+### CryptoScreen Integration
+- TabRow with Ledger and BICS Dashboard tabs
+- Separated legacy ledger UI from new cypher/acc dashboard
+
+## Tests (34 new tests)
+
+### BicsCoordinatorTest (9 tests)
+- Transaction processing with tax calculation
+- Dynamic tax varies with market conditions
+- High ZK strength reduces tax rate
+- 4-layer allocation (50/30/15/5 verified)
+- Arbitrage profit calculation
+- Loan rate formula (Fisher + Liquidity + Soros)
+- Energy calculation correctness
+- Deflation rate tracking
+
+### TopologyGuardianTest (13 tests)
+- Graph operations (add node/edge)
+- Euler characteristic calculation
+- Betti number computation (β₀, β₁)
+- Partition detection via DFS
+- Automatic healing of disconnected components
+- Mesh reconfiguration for redundancy
+- Attack simulation (30% node removal)
+- Survivability scoring
+- Robustness metrics validation
+
+### BicsDashboardViewModelTest (12 tests)
+- Initial state loading
+- Topology initialization (10 nodes)
+- Transaction execution updates all metrics
+- ZK strength impact on tax
+- Multiple transactions accumulate deflation
+- Loan rate reasonability
+- Refresh metrics updates StateFlow
+- Topology healing improves resilience
+- Attack simulation returns valid results
+- Energy increases with volume
+- Deflation correlates with burn
+- ViewModel cleanup
+
+## Documentation
+
+### BICS_ARCHITECTURE.md (400 lines)
+- Complete architectural overview
+- 4-Layer Capital Stack diagram
+- Dynamic tax formula explanation
+- P2P interest rate derivation
+- BICS energy function
+- Integration flow diagram
+- Euler-Poincaré topology resilience
+- Attack simulation protocol
+- CRDT causality integration
+- UI dashboard metrics specification
+- Testing strategy (58 total tests)
+- Production considerations (real oracles, FHE, Sub-OS)
+- Mathematical foundations (Fisher, Soros, Euler)
+- Philosophy (Estado-Nação Digital, Ordem Espontânea)
+
+## Integration Architecture
+
+EdgeOracleSensor (10 sensors) → SchellingConsensus → BicsCoordinator
+                                                           ↓
+DynamicTaxCalculator → BICS 4 Layers ← CryptoLedger ← Transaction
+                                ↓
+                      BicsEnergyEngine
+                                ↓
+                    BicsDashboardViewModel
+                                ↓
+                      BicsDashboardScreen
+
+## Formula Summary
+
+1. Dynamic Tax: τ_dyn = min(E[C_swift + I_fiat], ∂U_v/∂T) · e^(-κ·Z_k)
+2. P2P Rate: i_p2p = (i_Fisher + i_Liquidity) · (1 + α · σ_volatility)
+3. Soros Coefficient: α = ||∇P_fiat - ∇P_mesh||²·λ
+4. System Energy: E_BICS = ½M_v·V²_p2p + ∮Z_k(τ_opt)dS
+5. Euler Characteristic: χ(G) = V - E + C = β₀ - β₁
+
+## Statistics
+
+- Files: 9 (5 main + 4 tests)
+- Lines: ~1,400 (700 implementation + 700 tests)
+- Tests: 34 (9 coordinator + 13 topology + 12 ViewModel)
+- Coverage: Integration layer, topology resilience, UI reactivity
+
+## Next Steps (Phase 4)
+
+- FHE integration (Microsoft SEAL/HElib)
+- Sub-OS JIT compiler expansion
+- Real ESP32-S3 oracle deployment
+- Multi-device mesh testing
+- Production monitoring dashboard
+
+Teoria Unificada Montêlauro - cypher/acc - Singularidade

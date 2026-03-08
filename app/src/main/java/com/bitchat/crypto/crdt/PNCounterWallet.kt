@@ -17,10 +17,11 @@ import java.util.concurrent.ConcurrentHashMap
 class PNCounterWallet(
     val accountId: String,
     private val increments: ConcurrentHashMap<String, ConcurrentHashMap<VectorClock, Double>> = ConcurrentHashMap(),
-    private val decrements: ConcurrentHashMap<String, ConcurrentHashMap<VectorClock, Double>> = ConcurrentHashMap()
+    private val decrements: ConcurrentHashMap<String, ConcurrentHashMap<VectorClock, Double>> = ConcurrentHashMap(),
+    private val deviceId: String = java.util.UUID.randomUUID().toString()
 ) {
     private var localClock: VectorClock = VectorClock.empty()
-    private val nodeId: String = accountId // Each account is a node
+    private val nodeId: String = deviceId // Each device is a unique node
 
     /**
      * Calculate the balance: W_x = Σ Inc_i(x) - Σ Dec_i(x)
@@ -152,6 +153,8 @@ class PNCounterWallet(
     }
 
     companion object {
-        fun create(accountId: String): PNCounterWallet = PNCounterWallet(accountId)
+        fun create(accountId: String, deviceId: String = java.util.UUID.randomUUID().toString()): PNCounterWallet {
+            return PNCounterWallet(accountId, deviceId = deviceId)
+        }
     }
 }

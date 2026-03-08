@@ -110,8 +110,11 @@ class SchellingConsensus {
         val variance = reports.map { (it.value - mean) * (it.value - mean) }.average()
         val stdDev = kotlin.math.sqrt(variance)
 
+        // Use 3σ rule, but handle edge case where all values are very close
+        val threshold = if (stdDev > 1e-6) 3 * stdDev else Double.MAX_VALUE
+        
         return reports.filter { report ->
-            abs(report.value - mean) <= 3 * stdDev
+            abs(report.value - mean) <= threshold
         }
     }
 
