@@ -39,5 +39,10 @@ fun CryptoScreen(viewModel: CryptoViewModel = viewModel()) {
         Button(onClick = { viewModel.transfer(from, to, amount) }) {
             Text("Transfer")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Unified value history:")
+        history.forEach { u ->
+            Text(u.toString())
+        }
     }
 }

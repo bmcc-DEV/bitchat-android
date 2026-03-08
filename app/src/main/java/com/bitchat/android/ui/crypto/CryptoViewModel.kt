@@ -13,6 +13,9 @@ class CryptoViewModel : ViewModel() {
     private val _balances = MutableStateFlow<Map<String, Double>>(emptyMap())
     val balances: StateFlow<Map<String, Double>> = _balances
 
+    private val _history = MutableStateFlow<List<Double>>(emptyList())
+    val history: StateFlow<List<Double>> = _history
+
     init {
         // initial accounts
         ledger.deposit("alice", 1000.0)
@@ -31,6 +34,7 @@ class CryptoViewModel : ViewModel() {
         viewModelScope.launch {
             if (ledger.transfer(from, to, amount)) {
                 updateBalances()
+                _history.value = ledger.getUnifiedHistory()
             }
         }
     }
