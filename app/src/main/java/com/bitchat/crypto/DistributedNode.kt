@@ -1,9 +1,14 @@
 package com.bitchat.crypto
 
+import com.bitchat.crypto.storage.NodeStateRepository
 import java.util.Base64
 import java.util.UUID
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicLong
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 /**
  * Independent node with local ledger state and ordered gossip processing.
@@ -14,8 +19,16 @@ class DistributedNode(
     private val ledger = CryptoLedger()
     private val seq = AtomicLong(0)
     private val inbox = CopyOnWriteArrayList<NetworkService.NetworkMessage>()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     fun attach() {
+        scope.launch {
+            val snapshot = NodeStateRepository.loadSnapshot(nodeId)
+            if (snapshot.isNotEmpty()) {
+                ledger.restoreBalances(snapshot)
+            }
+        }
+
         NetworkService.registerOrderedListener { msg ->
             inbox.add(msg)
             processInbox()
@@ -24,6 +37,7 @@ class DistributedNode(
 
     fun deposit(account: String, amount: Double) {
         ledger.deposit(account, amount)
+        NodeStateRepository.saveSnapshotAsync(nodeId, ledger.snapshotBalances())
     }
 
     fun submitTransfer(from: String, to: String, amount: Double) {
@@ -66,5 +80,6 @@ class DistributedNode(
         }
 
         inbox.clear()
+        NodeStateRepository.saveSnapshotAsync(nodeId, ledger.snapshotBalances())
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bitchat.android.ui.crypto.NetworkScreen
 import com.bitchat.android.ui.crypto.OracleScreen
+import com.bitchat.android.ui.crypto.WalletAuthScreen
 import com.ghostpay.android.ui.pay.PayDashboardScreen
 import com.bitchat.android.ui.crypto.CryptoScreen
 
@@ -58,6 +59,7 @@ fun MainNavigationScreen(chatViewModel: ChatViewModel) {
                 NavigationTab.CRYPTO -> CryptoScreen()
                 NavigationTab.NETWORK -> NetworkScreen()
                 NavigationTab.ORACLE -> OracleScreen()
+                NavigationTab.WALLET -> WalletAuthScreen()
             }
         }
     }
@@ -71,5 +73,6 @@ enum class NavigationTab(val title: String, val icon: ImageVector) {
     PAY("Pay", Icons.Filled.AccountBalanceWallet),
     CRYPTO("Crypto", Icons.Filled.CurrencyBitcoin),
     NETWORK("Network", Icons.Filled.Wifi),
-    ORACLE("Oracle", Icons.Filled.Lightbulb)
+    ORACLE("Oracle", Icons.Filled.Lightbulb),
+    WALLET("Wallet", Icons.Filled.Lock)
 }

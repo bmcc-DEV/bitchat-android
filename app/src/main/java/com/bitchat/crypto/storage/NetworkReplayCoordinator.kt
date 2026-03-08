@@ -17,6 +17,7 @@ object NetworkReplayCoordinator {
         started = true
 
         val dao = CryptoOpsDatabase.get(context).networkLogDao()
+        NodeStateRepository.init(dao)
 
         // Persist every ordered gossip message.
         NetworkService.registerOrderedListener { msg ->

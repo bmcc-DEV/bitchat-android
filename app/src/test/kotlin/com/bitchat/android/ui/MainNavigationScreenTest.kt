@@ -6,14 +6,15 @@ import org.junit.Test
 
 class MainNavigationScreenTest {
     @Test
-    fun `navigation tab count includes crypto and oracle`() {
+    fun `navigation tab count includes crypto oracle and wallet`() {
         val tabs = NavigationTab.values()
-        assertEquals(5, tabs.size)
+        assertEquals(6, tabs.size)
         assertEquals("Crypto", tabs[2].title)
         assertEquals("Network", tabs[3].title)
         assertEquals("Oracle", tabs[4].title)
-        // icon type check for oracle
-        val icon: ImageVector = tabs[4].icon
+        assertEquals("Wallet", tabs[5].title)
+        // icon type check for wallet
+        val icon: ImageVector = tabs[5].icon
         assertEquals(true, icon != null)
     }
 }
