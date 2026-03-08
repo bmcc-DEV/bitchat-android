@@ -11,8 +11,8 @@ class CryptoViewModelTest {
     fun `initial balances populated`() = runTest {
         val vm = CryptoViewModel()
         val balances = vm.balances.value
-        assertEquals(1000.0, balances["alice"], 1e-6)
-        assertEquals(500.0, balances["bob"], 1e-6)
+        assertEquals(1000.0, balances["alice"]!!, 1e-6)
+        assertEquals(500.0, balances["bob"]!!, 1e-6)
     }
 
     @Test
@@ -21,8 +21,8 @@ class CryptoViewModelTest {
         vm.transfer("alice", "bob", 100.0)
         // small delay may be required; use runTest's auto-advance
         val balances = vm.balances.value
-        assertEquals(900.0, balances["alice"], 1e-6)
+        assertEquals(900.0, balances["alice"]!!, 1e-6)
         // bob receives 95 after 5% tax
-        assertEquals(595.0, balances["bob"], 1e-6)
+        assertEquals(595.0, balances["bob"]!!, 1e-6)
     }
 }
