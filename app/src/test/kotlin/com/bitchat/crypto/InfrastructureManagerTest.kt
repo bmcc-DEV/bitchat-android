@@ -16,7 +16,10 @@ class FakeKernel : SecretKernel {
 
 class FakeSubOS : SubOS {
     override fun executeInstruction(instruction: ByteArray) {}
-    override fun compileNetworkCode(bytecode: ByteArray): ByteArray = bytecode
+    override fun compileNetworkCode(bytecode: ByteArray): ByteArray {
+        // delegate to JIT compiler stub
+        return JitCompiler.compile(bytecode)
+    }
 }
 
 class FakeWebOS : WebOS {
