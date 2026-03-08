@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun CryptoScreen(viewModel: CryptoViewModel = viewModel()) {
     val balances by viewModel.balances.collectAsState()
+    val history by viewModel.history.collectAsState()
     var from by remember { mutableStateOf("alice") }
     var to by remember { mutableStateOf("bob") }
     var amount by remember { mutableStateOf(0.0) }
