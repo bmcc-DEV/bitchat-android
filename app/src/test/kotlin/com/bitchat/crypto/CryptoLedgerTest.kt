@@ -20,8 +20,8 @@ class CryptoLedgerTest {
         assertEquals(true, success)
         // alice loses 50.0
         assertEquals(150.0, ledger.getBalance("alice"), 1e-6)
-        // bob receives 90.0 after 10% tax
-        assertEquals(90.0, ledger.getBalance("bob"), 1e-6)
+        // bob receives 45.0 after 10% tax (50 - 5)
+        assertEquals(45.0, ledger.getBalance("bob"), 1e-6)
     }
 
     @Test
