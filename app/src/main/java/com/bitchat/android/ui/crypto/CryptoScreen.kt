@@ -9,6 +9,29 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun CryptoScreen(viewModel: CryptoViewModel = viewModel()) {
+    var selectedTab by remember { mutableIntStateOf(0) }
+    val tabs = listOf("Ledger", "BICS Dashboard")
+    
+    Column(modifier = Modifier.fillMaxSize()) {
+        TabRow(selectedTabIndex = selectedTab) {
+            tabs.forEachIndexed { index, title ->
+                Tab(
+                    selected = selectedTab == index,
+                    onClick = { selectedTab = index },
+                    text = { Text(title) }
+                )
+            }
+        }
+        
+        when (selectedTab) {
+            0 -> LedgerTab(viewModel)
+            1 -> BicsDashboardScreen()
+        }
+    }
+}
+
+@Composable
+private fun LedgerTab(viewModel: CryptoViewModel) {
     val balances by viewModel.balances.collectAsState()
     val history by viewModel.history.collectAsState()
     var from by remember { mutableStateOf("alice") }
