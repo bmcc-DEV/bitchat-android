@@ -18,4 +18,13 @@ class ZkProofServiceTest {
         val proof = ZkProofService.prove(stmt)
         assertFalse(ZkProofService.verify("alice->bob:60", proof))
     }
+
+    @Test
+    fun `legacy provider remains supported`() {
+        ZkProofService.useLegacyProvider()
+        val stmt = "x:y:1"
+        val proof = ZkProofService.prove(stmt)
+        assertTrue(ZkProofService.verify(stmt, proof))
+        ZkProofService.useHashTranscriptProvider()
+    }
 }
