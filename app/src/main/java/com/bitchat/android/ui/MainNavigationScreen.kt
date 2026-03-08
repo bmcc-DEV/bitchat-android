@@ -55,6 +55,7 @@ fun MainNavigationScreen(chatViewModel: ChatViewModel) {
                 NavigationTab.PAY -> PayDashboardScreen()
                 NavigationTab.CRYPTO -> CryptoScreen()
                 NavigationTab.NETWORK -> NetworkScreen()
+                NavigationTab.ORACLE -> OracleScreen()
             }
         }
     }
@@ -67,5 +68,6 @@ enum class NavigationTab(val title: String, val icon: ImageVector) {
     CHAT("Chat", Icons.Filled.Chat),
     PAY("Pay", Icons.Filled.AccountBalanceWallet),
     CRYPTO("Crypto", Icons.Filled.CurrencyBitcoin),
-    NETWORK("Network", Icons.Filled.Wifi)
+    NETWORK("Network", Icons.Filled.Wifi),
+    ORACLE("Oracle", Icons.Filled.Lightbulb)
 }
