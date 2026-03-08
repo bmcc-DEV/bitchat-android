@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ghostpay.android.ui.pay.PayDashboardScreen
+import com.bitchat.android.ui.crypto.CryptoScreen
 
 /**
  * Main navigation container with bottom navigation bar
@@ -52,6 +53,7 @@ fun MainNavigationScreen(chatViewModel: ChatViewModel) {
             when (selectedTab) {
                 NavigationTab.CHAT -> ChatScreen(viewModel = chatViewModel)
                 NavigationTab.PAY -> PayDashboardScreen()
+                NavigationTab.CRYPTO -> CryptoScreen()
             }
         }
     }
@@ -62,5 +64,6 @@ fun MainNavigationScreen(chatViewModel: ChatViewModel) {
  */
 enum class NavigationTab(val title: String, val icon: ImageVector) {
     CHAT("Chat", Icons.Filled.Chat),
-    PAY("Pay", Icons.Filled.AccountBalanceWallet)
+    PAY("Pay", Icons.Filled.AccountBalanceWallet),
+    CRYPTO("Crypto", Icons.Filled.CurrencyBitcoin)
 }
